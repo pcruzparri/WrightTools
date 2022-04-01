@@ -6,7 +6,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.gridspec import GridSpec
 
 
 # --- define --------------------------------------------------------------------------------------
@@ -453,7 +452,7 @@ class Artist:
 
 
 
-    def add_cascade(self, diagram, number, number_of_interactions=4, titles=[None], title_font_size=16, state_names=None, virtual=[None], state_font_size=14, state_text_buffer=0.5, label_side="left") :
+    def add_cascade(self, diagram, number, number_of_interactions=4, titles=[None], title_font_size=16, state_names=None, virtual=[None], state_font_size=14, state_text_buffer=0.5, label_side="left", bbox_adjust=[0.2, 0.9, 0.2, 0.78]) :
         """Add cascading process as plot. 
         
         Parameters
@@ -465,7 +464,22 @@ class Artist:
         number_of_interactions : int (optional)
             number of interactions for each sub process. 
             Equal for all subprocesses. Default is 4.
-        titles
+        titles : list of str (optional)
+            list of title for each process. Default is [None]
+        title_font_size : int (optional)
+            set the title font size. Default is 16
+        state_names : list of str (optional)
+            list of state names. Default is None
+        virtal : list of int (optional)
+            list of indices of virtual states. Default is [None]
+        state_font_size : int (optional)
+            set the font size for the labels. Default is 14
+        state_text_buffer : float (optional)
+            set the state text buffer. Default is 0.5
+        label_side : str (optional)
+            set the side on which the state label will appear. Either 'left' or 'right'. Default is 'left'
+        bbox_adjust : list of floats (optional)
+            adjusts the left, right, bottom, and top bounds of the cascade diagram. Default is bbox_adjust=[0.2, 0.9, 0.2, 0.78]
         
         
         """
@@ -482,7 +496,7 @@ class Artist:
         casc_subplot = sfig.subplots(1,3*number-3, gridspec_kw=spec, subplot_kw={'position':bbox}) #make subplots
         
         #empirical adjustment to subfigure bbox to align levels with other row plots
-        sfig.subplots_adjust(left=0.1, bottom=0.2, right=0.9, top=0.78)
+        sfig.subplots_adjust(left=0.3, bottom=0.2, right=0.9, top=0.78)
         
         #plot the arrows between cascading processes as a sine arrow
         for arrowindex, arrowplot in enumerate(casc_subplot.flatten()[:-1]):
@@ -497,16 +511,14 @@ class Artist:
         #plot the cascade's processes' diagrams
         for ind, plot in enumerate(casc_subplot.flatten()):
             plot.axis('off')
-            print(ind)
             if ind%2==0:
-            
-                if titles!=[""]:
+                if titles!=[None]:
                     subtitles = []
-                    for title in titles:
-                        subtitles.append(title)
+                    for t in titles:
+                        subtitles.append(t)
                         subtitles.append("")
-                elif titles==[None]: subtitles=['']*2*number
-                
+                elif titles==[None]: subtitles=['']*(2*number_of_interactions)
+                print(subtitles)
                 if ind==0:
                     casc_wmel = Subplot(plot,energies=self.energies, number_of_interactions=number_of_interactions, title=subtitles[ind], title_font_size=title_font_size, state_names=state_names, virtual=virtual, state_font_size=state_font_size, state_text_buffer=state_text_buffer, label_side=label_side) #Uses the Subplot class to make the each process diagram      
                 else:   
@@ -545,10 +557,5 @@ class Artist:
          """
         x,y = diagram[0],diagram[1]
         self.cascades[f'[{x},{y}]'][cascade_number].add_arrow(number,between,kind, label=label, head_length=head_length, head_aspect=head_aspect, font_size=font_size, color=color)
-        
-      
-
-
-
-            
+         
             
