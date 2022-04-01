@@ -548,31 +548,6 @@ class Artist:
         
       
 
-artist=Artist(size=[2,3], energies=[0.2,0.5,1], state_names=['g','e1','e2'])
-
-artist.add_arrow([1,2], 2, [0,2], 'bra')
-artist.add_arrow([0,2], 2, [0,2], 'bra')
-
-artist.add_arrow([0,0], 0, [0,1], 'ket')
-artist.add_arrow([0,0], 1, [0,1], 'bra', label='hehe')
-artist.add_arrow([0,0], 2, [1,0], 'bra')
-artist.add_arrow([0,0], 3, [1,0], 'out')
-
-
-artist.add_cascade([1,1],2,number_of_interactions=3, titles=['hi', 'hello'], title_font_size=20, state_names=['g','e1','e2'], virtual=[2], state_font_size=20, state_text_buffer=0.3, label_side="left" )
-artist.add_cascade_arrow([1,1], 1, 0, [0,2], 'outbra',label="well", font_size = 20, color='k')
-artist.add_cascade_arrow([1,1], 1, 1, [0,1], 'ket')
-artist.add_cascade_arrow([1,1], 1, 2, [1,0], 'bra')
-
-
-artist.add_cascade_arrow([1,1], 0, 2, [2,0], 'out')
-
-sfp = '/home/peter/Desktop/run.png'
-artist.plot(save_path=sfp)
-plt.show()
-
-
-
 
 
             
